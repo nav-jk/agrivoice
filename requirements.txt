@@ -1,6 +1,6 @@
 fastapi
 uvicorn
-torch==2.1.0+cu118  # Or correct CUDA version
+torch==2.1.0  # Or correct CUDA version
 transformers
 datasets
 ffmpeg-python

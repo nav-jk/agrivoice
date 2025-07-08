@@ -25,6 +25,7 @@ try:
         batch_size=16,
         torch_dtype=torch_dtype,
         device=device,
+        task="translate",  # 👈 This ensures translation to English
     )
     print(f"✅ Whisper model loaded on device: {device}")
 except Exception as e:

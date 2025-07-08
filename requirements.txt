@@ -1,0 +1,8 @@
+numpy<2.0
+torch
+transformers
+datasets
+fastapi
+uvicorn
+ffmpeg-python
+opencv-python  # only if needed

@@ -1,8 +1,8 @@
-numpy<2.0
-torch
-transformers
-datasets
 fastapi
 uvicorn
+torch==2.1.0+cu118  # Or correct CUDA version
+transformers
+datasets
 ffmpeg-python
-opencv-python  # only if needed
+python-multipart
+numpy<2.0  # important for Whisper compatibility

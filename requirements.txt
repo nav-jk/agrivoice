@@ -1,6 +1,6 @@
 fastapi
 uvicorn
-torch==2.1.0           # ✅ Match your CUDA version (e.g., 2.1.0+cu118 if using GPU)
+torch==2.6.0  # Stable and widely compatible          # ✅ Match your CUDA version (e.g., 2.1.0+cu118 if using GPU)
 transformers>=4.36.0   # ✅ Required for Whisper-large-v3 and PEFT compatibility
 datasets
 ffmpeg-python

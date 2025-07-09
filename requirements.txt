@@ -1,8 +1,11 @@
 fastapi
 uvicorn
-torch==2.1.0  # Or correct CUDA version
-transformers
+torch==2.1.0           # ✅ Match your CUDA version (e.g., 2.1.0+cu118 if using GPU)
+transformers>=4.36.0   # ✅ Required for Whisper-large-v3 and PEFT compatibility
 datasets
 ffmpeg-python
 python-multipart
-numpy<2.0  # important for Whisper compatibility
+numpy<2.0              # ✅ Whisper relies on older NumPy APIs
+sentencepiece          # ✅ Needed for T5/Flan models
+peft>=0.5.0            # ✅ Required for LoRA inference
+accelerate             # ✅ Required for loading some large models with optimized memory

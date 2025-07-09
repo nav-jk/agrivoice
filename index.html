@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AgriVoice Transcription</title>
+  <style>
+    body { font-family: Arial; padding: 30px; }
+    button { padding: 10px 20px; font-size: 16px; }
+    #status { margin-top: 20px; }
+    #transcription { margin-top: 20px; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h2>🎤 Voice to Text Transcription</h2>
+  <button id="recordButton">Start Recording</button>
+  <p id="status"></p>
+  <p id="transcription"></p>
+
+  <script>
+    const button = document.getElementById("recordButton");
+    const status = document.getElementById("status");
+    const transcription = document.getElementById("transcription");
+
+    let mediaRecorder;
+    let audioChunks = [];
+
+    button.addEventListener("click", async () => {
+      if (mediaRecorder && mediaRecorder.state === "recording") {
+        mediaRecorder.stop();
+        button.innerText = "Start Recording";
+        status.innerText = "Stopping and sending audio...";
+        return;
+      }
+
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      mediaRecorder = new MediaRecorder(stream);
+
+      audioChunks = [];
+      mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+
+      mediaRecorder.onstop = async () => {
+        const audioBlob = new Blob(audioChunks, { type: "audio/wav" });
+        const formData = new FormData();
+        formData.append("file", audioBlob, "recording.wav");
+
+        try {
+          const response = await fetch("https://agrivoice-api-ws-2a-8000.ml.iit-ropar.truefoundry.cloud/transcribe/", {
+            method: "POST",
+            body: formData
+          });
+
+          const result = await response.json();
+          status.innerText = "✅ Transcription complete!";
+          transcription.innerText = result.text || result.error || "No transcription returned";
+        } catch (err) {
+          status.innerText = "❌ Error during transcription";
+          transcription.innerText = err.message;
+        }
+      };
+
+      mediaRecorder.start();
+      button.innerText = "Stop Recording";
+      status.innerText = "🎙️ Recording...";
+    });
+  </script>
+</body>
+</html>
